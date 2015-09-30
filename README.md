@@ -1,1 +1,1 @@
-# WindRide
+# EasyRide
