@@ -34,8 +34,9 @@
         <h2>WebUI Demo</h2>
         <h3><a href="../locations">back</a></h3>
     </div>
-    <div id="map" onclick="initialize({{ geosmatch }})"> </div>
-     
+    <div id="map"> </div>
+    <span id="markers" onclick="initialize({{ geosmatch }})"></span>
+    
     <script async defer src="https://maps.googleapis.com/maps/api/js?callback=initialize"
         async defer></script>
   
