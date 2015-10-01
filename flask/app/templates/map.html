@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Simple Map</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <style>
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #map {
+        height: 100%;
+      }
+	  .labels {
+     	color: red;
+     	background-color: white;
+     	font-family: "Lucida Grande", "Arial", sans-serif;
+     	font-size: 10px;
+     	font-weight: bold;
+     	text-align: center;
+     	width: 40px;     
+     	border: 2px solid black;
+     	white-space: nowrap;
+	  }
+    </style>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <!--<script src="../static/elasticsearch-js/elasticsearch.js"></script>-->
+ 	<script src="../static/match.js"></script>
+  </head>
+  <body>
+  	<div>
+        <h2>WebUI Demo</h2>
+        <h3><a href="../locations">back</a></h3>
+    </div>
+    <div id="map" onclick="initialize({{ geosmatch }})"> </div>
+     
+    <script async defer src="https://maps.googleapis.com/maps/api/js?callback=initialize"
+        async defer></script>
+  
+  </body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h3 class="text-muted">WebUI Demo</h3>
+      </div>
+      <hr/>
+      <form action="/entry_results" method="POST">
+      	Departing Latitude : <input type="text" name="deplat"><br><br/>
+  		Departing Longitude: <input type="text" name="deplon"><br><br/>
+        Arriving Latitude : <input type="text" name="arrlat"><br><br/>
+  		Departing Longitude: <input type="text" name="arrlon"><br><br/>
+        <input type="checkbox" name="driver">Driver</input>
+    	<input type="checkbox" name="rider">Rider</input><br><br/>
+  		<input type="submit" name="request-form" value="Send">
+    </form>
+    </div>
+  </body>
+</html>
