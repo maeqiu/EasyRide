@@ -1,5 +1,3 @@
-#!/usr/bin/python
-
 import json
 import random
 import sys
@@ -16,9 +14,7 @@ class matchRides(object):
             
     def matching(self):
         es_client = ElasticSearch("http://ec2-54-219-169-37.us-west-1.compute.amazonaws.com:9200")
-        #while True:
-    
-            # construct query to select closest drivers
+        # construct query to select closest drivers/riders
         query = {
           "sort" : [
               {
@@ -51,14 +47,14 @@ class matchRides(object):
                         "bool" : {
                           "must" : [
                              { "geo_distance" : {
-                                    "distance" : "30km",
+                                    "distance" : "20mi",
                                     "deplocation" : {
                                         "lat" : self.deplocation[0],
                                         "lon" : self.deplocation[1]
                                     }}
                              }, 
                              { "geo_distance" : {
-                                    "distance" : "30km",
+                                    "distance" : "20mi",
                                     "arrlocation" : {
                                         "lat" : self.arrlocation[0],
                                         "lon" : self.arrlocation[1]
@@ -72,17 +68,13 @@ class matchRides(object):
         }
     
         print "-----------executing search query-----------"
-        #print 'departing loc: ' + riderdeploc[0] + ', ' + riderdeploc[1]
-        #print 'arriving loc: ' + riderarrloc[0] + ', ' + riderarrloc[1]
-        res = es_client.search(query, index=self.esindex)
-    
+        res = es_client.search(query, index=self.esindex)    
         hits = res['hits']['hits']        
     
         # no nearby driver available
         if len(hits) == 0:
             print "No Drivers Found"
-            time.sleep(10)
-            return
+            return (1)
     
         print "Found %d drivers" % len(hits)
         print json.dumps(hits)
@@ -100,10 +92,5 @@ class matchRides(object):
             arrlat.append(re['_source']['arrlocation']['lat'])
             arrlon.append(re['_source']['arrlocation']['lon'])            
             dist.append(re['sort'])
-        #print dist[0][0]
-        #print dist[1][1]
-        return mid, deplat, deplon, arrlat, arrlon, dist
+        return (deplat, deplon, arrlat, arrlon, dist, mid)
         
-if __name__ == "__main__":
-    producer = matchRides()
-    producer.matching()
