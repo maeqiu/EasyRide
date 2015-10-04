@@ -78,6 +78,7 @@ class matchRides(object):
         print "Found %d drivers/riders" % len(hits)
         print json.dumps(hits)
         mid=[]
+        phone=[]
         deplat=[]
         deplon=[]
         arrlat=[]
@@ -85,10 +86,11 @@ class matchRides(object):
         dist=[]
         for re in hits:
             mid.append(re['_source']['messageid'])
+            phone.append(re['_source']['phone'])
             deplat.append(re['_source']['deplocation']['lat'])
             deplon.append(re['_source']['deplocation']['lon'])
             arrlat.append(re['_source']['arrlocation']['lat'])
             arrlon.append(re['_source']['arrlocation']['lon'])            
             dist.append(re['sort'])
-        return (deplat, deplon, arrlat, arrlon, dist, mid)
+        return (deplat, deplon, arrlat, arrlon, dist, mid, phone)
         

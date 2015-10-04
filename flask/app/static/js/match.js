@@ -5,8 +5,7 @@ var map;
 
 function initialize(values) {
 	markers = values;
-	//var myLatlng = {lat: markers[0]['deplat'], lng: markers[0]['deplon']};
-    var myOptions = {
+	var myOptions = {
         zoom: 8,
         center: myLatlng
     };
@@ -35,26 +34,26 @@ function showMatch(markers, map) {
 				map: map,
 				icon: "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=" + character + "|" + marker_color + "|" + marker_text_color,
 				title: String(markers[index]['distance'][0]) + ' km',
-				messageid: markers[index]['messageid']
+				messageid: markers[index]['messageid'],
+				phone: markers[index]['phone']
 			});
-		
 			google.maps.event.addListener(marker, 'click', function() {
-				updateDatabase(this.messageid,markers[len-1]['deplat'], markers[len-1]['deplon']);
+				alert(index+','+this.phone);
+				updateDatabase(this.messageid,this.phone,markers[len-1]['deplat'], markers[len-1]['deplon']);
 			});
 		
 			var marker_color = "009BEE";   //blue
-			//var marker_color = "EE009B";
 			var marker = new google.maps.Marker({
 				position: {lat: markers[index]['arrlat'], lng: markers[index]['arrlon']},
 				map: map,
-				//icon: 'http://maps.google.com/mapfiles/marker_yellow.png',
 				icon: "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=" + character + "|" + marker_color + "|" + marker_text_color,
 				title: String(markers[index]['distance'][1]) + ' km',
-				messageid: markers[index]['messageid']
+				messageid: markers[index]['messageid'],
+				phone: markers[index]['phone']
 			});
 		
 			google.maps.event.addListener(marker, 'click', function() {
-				updateDatabase(this.messageid,markers[len-1]['deplat'], markers[len-1]['deplon']);
+				updateDatabase(this.messageid,this.phone,markers[len-1]['deplat'], markers[len-1]['deplon']);
 			});
 		}
 
@@ -75,7 +74,7 @@ function showMatch(markers, map) {
 	
 }
 
-function updateDatabase(messageid, lat, lon) {
+function updateDatabase(messageid, phone, lat, lon) {
 	alert(messageid+','+lat+','+lon);
-	window.location.href = "http://ec2-54-215-228-56.us-west-1.compute.amazonaws.com/update/"+messageid+"/"+lat+"/"+lon;
+	window.location.href = "http://ec2-54-215-228-56.us-west-1.compute.amazonaws.com/update/"+messageid+"/"+phone+"/"+lat+"/"+lon;
 }
