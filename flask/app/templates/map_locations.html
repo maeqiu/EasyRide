@@ -1,66 +1,83 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html>
-  <head>
-    <title>Simple Map</title>
-    <meta name="viewport" content="initial-scale=1.0">
-    <meta charset="utf-8">
-    <style>
-      html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
-      #map {
-        height: 100%;
-      }
-	  .labels {
-     	color: red;
-     	background-color: white;
-     	font-family: "Lucida Grande", "Arial", sans-serif;
-     	font-size: 10px;
-     	font-weight: bold;
-     	text-align: center;
-     	width: 40px;     
-     	border: 2px solid black;
-     	white-space: nowrap;
-	  }
-    </style>
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-  	<script src="../static/locations.js"></script>
-  </head>
-  <body>
-  	<div class="header">
-        <h2>WebUI Demo</h2>
-    </div>
-  	<div>
-      <h3>Search Drivers/Riders&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="../../../../../locations">back</a></h3>
-      <form id="searchform" action="/entry_results" method="POST">
-          <table width="800" border="1">
-          <tr>
-            <td>Departing Latitude : <input type="text" id="deplat" name="deplat"></td>
-            <td>Arriving Latitude : <input type="text" id="arrlat" name="arrlat"></td>
-            <td><img src="http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=1|EE0024|FFFFFF" width="30" height="50" />Driver Departing Location</td>
-            <td><img src="http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=1|259311|FFFFFF" width="30" height="50" />Driver Arriving Location</td></td>
-          </tr>
-          <tr>
-            <td>Departing Longitude: <input type="text" id="deplon" name="deplon"></td>
-            <td>Arriving Longitude: <input type="text" id="arrlon" name="arrlon"></td>
-            <td><img src="http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=1|AB2FDE|FFFFFF"/>Rider Departing Location</td>
-            <td><img src="http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=1|009BEE|FFFFFF"/>Rider Arriving Location</td>
-          </tr>
-          </table>
-          <br/>
-          <input type="checkbox" name="driver">Looking for driver</input>
-          <input type="checkbox" name="rider">Looking for rider</input><br><br/>
-          <input type="submit" name="request-form" value="Search"> 
-      </form>
-    </div>      
-        
-    
+<head>
+    <title>EasyRide</title>
+    <link href="../static/css/bootstrap.css" rel="stylesheet" type="text/css" media="all">
+<link href="../static/css/style.css" rel="stylesheet" type="text/css" media="all" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800,600,300' rel='stylesheet' type='text/css'>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="../static/js/locations.js"></script>
+<!-- Mega Menu -->
+<link href="../static/css/megamenu.css" rel="stylesheet" type="text/css" media="all" />
+<script type="text/javascript" src="../static/js/megamenu.js"></script>
+<script>$(document).ready(function(){$(".megamenu").megamenu();});</script>
+<!-- Mega Menu -->
+</head>
+<body>
+	<div class="header">
+		<div class="container">
+        	<div class="logo">
+				<a href="index.html"><img src="../static/images/logo.png" class="img-responsive" alt=""></a>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+	</div>
+	<div class="header-bottom">
+		<div class="container">
+			<div class="top-nav">
+				<span class="menu"> </span>
+					<ul class="navig megamenu skyblue">
+						<li><a href="." class="current"><span> </span> Search Drivers/Riders</a></li>
+                        <li><a href="../../../../../slides" target="_blank" class="scroll"><span class="slides"> </span> Slide Show</a></li>
+						<div class="clearfix"></div>
+					</ul>
+			</div>
+			<div class="head-right">
+				<ul class="number">
+					<li><a href="https://github.com/maeqiu/EasyRide" target="_blank"><i class="roc"> </i>Github</a></li>
+					<li><a href="https://linkedin.com/in/maeqiu" target="_blank"><i class="phone"> </i>linkedin</a></li>
+					<li><a href="mailto:mae.x.qiu@gmail.com" target="_blank"><i class="mail"> </i>email</a></li>					
+					<div class="clearfix"> </div>						
+				</ul>
+			</div>
+			<div class="clearfix"> </div>	
+		</div>
+	</div>
+	<div class="location">
+		<div class="container">
+		  	<div>
+              <form id="searchform" action="/entry_results" method="POST">
+              	<div class="air">
+					<li class="wicked">Departing Latitude : <input type="text" id="deplat" name="deplat"></li>
+					<li class="wicked">Arriving Latitude : <input type="text" id="arrlat" name="arrlat"></li>
+					<li class="wicked"><img src="http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=|EE0024|FFFFFF">Driver Departing Location</li>
+					<li class="wicked"><img src="http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=|F74DE1|FFFFFF">Driver Arriving Location</li>
+			  	</div>
+              	<div class="air">
+					<li class="wicked">Departing Longitude<input type="text" id="deplon" name="deplon"></li>
+					<li class="wicked">Arriving Longitude<input type="text" id="arrlon" name="arrlon"></li>
+					<li class="wicked"><img src="http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=|4506F8|FFFFFF">Rider Departing Location</li>
+					<li class="wicked"><img src="http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=|009BEE|FFFFFF">Rider Arriving Location</li>
+			  	</div>
+              	<div class="ball"> 
+                	<li class="wicked"><input type="radio" name="drflag" value="1">Looking for driver</input></li>
+              		<li class="wicked"><input type="radio" name="drflag" value="0">Looking for rider</input></li>
+                    <li class="wicked"><input type="submit" name="request-form" value="Search"></li>
+              	</div>
+          	  </form> 
+			</div>
+		</div>
+	</div>
     <div id="map"></div>
     
     <script src="https://maps.googleapis.com/maps/api/js?callback=initialize"
         async defer></script>
-  
-  </body>
+	<div class="footer">
+		<div class="container"></div>
+		<div class="clearfix"></div>
+	</div>
+</body>
 </html>

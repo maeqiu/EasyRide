@@ -2,39 +2,56 @@ from app import app
 from MatchUtilities import matchRides 
 from RetrieveUtilities import retrieveLocations 
 from UpdateUtilities import updateByMessageid
+from UpdateUtilities import mark4deletionByLatLon
 from UpdateUtilities import updateByLatLon
+import UpdateUtilities as uutil
 from flask import Flask, render_template, redirect, url_for, request, jsonify, json
+from pyelasticsearch import ElasticSearch
+
+@app.route("/")
+@app.route("/locations")
+def locations():
+    return render_template('map_locations.html')
+
+# link to the slides
+@app.route("/slides")
+def slides():
+    return render_template("slides.html")
 
 @app.route("/entry")
 def entry():
     return render_template("request_form.html")
 
-@app.route('/entry_results', methods=['POST'])
+@app.route("/entry_results", methods=['POST'])
 def entry_results():
     deplat = float(request.form['deplat'])
     deplon = float(request.form['deplon'])
     arrlat = float(request.form['arrlat'])
     arrlon = float(request.form['arrlon'])
-    if request.form.get('driver'):
-        drflag=1
-    if request.form.get('rider'):
-        drflag=0
-    producer = matchRides('test',[deplat,deplon],[arrlat,arrlon],drflag)
-    
-    mid,deplats,deplons,arrlats,arrlons,dist = producer.matching()
-    geosmatch = [{"messageid": mid[ind], "deplat": deplats[ind], "deplon": deplons[ind], "arrlat": arrlats[ind], "arrlon": arrlons[ind], "distance": dist[ind]} for ind in range(len(deplats))]
-    geosmatch.append({"messageid": 0,"deplat": deplat, "deplon": deplon, "arrlat": arrlat, "arrlon": arrlon, "distance": [0,0]})
-    
-    return render_template('map.html',geosmatch=geosmatch)
-
-@app.route("/locations")
-def locations():
-    return render_template('map_locations.html')
+    drflag = int(request.form['drflag'])
+#     if request.form.get('driver'):
+#         drflag=1
+#     if request.form.get('rider'):
+#         drflag=0
+    print "drflag = %d" % drflag
+    es_client = ElasticSearch("http://ec2-54-219-169-37.us-west-1.compute.amazonaws.com:9200")
+    producer = matchRides(es_client,'test','myMessages',[deplat,deplon],[arrlat,arrlon],drflag)
+    result = producer.matching()
+    print "----------------------"
+    if (result != 1):    #found matching driver/rider 
+        (deplats,deplons,arrlats,arrlons,dist,mid) = result
+        geosmatch = [{"messageid": mid[ind], "deplat": deplats[ind], "deplon": deplons[ind], "arrlat": arrlats[ind], "arrlon": arrlons[ind], "distance": dist[ind]} for ind in range(len(deplats))]
+        geosmatch.append({"messageid": 0, "deplat": deplat, "deplon": deplon, "arrlat": arrlat, "arrlon": arrlon, "distance": [0,0]})
+        print geosmatch
+        return render_template('map.html',geosmatch=geosmatch)
+    else:
+        return render_template("confirm.html", message = "Sorry, no nearby drivers/riders available")
 
 @app.route("/geosdriver")
 def geosdriver():
     drflag = 1
-    producer = retrieveLocations('test', drflag)    
+    es_client = ElasticSearch("http://ec2-54-219-169-37.us-west-1.compute.amazonaws.com:9200")
+    producer = retrieveLocations(es_client, 'test', 'myMessages', drflag)    
     deplats,deplons,arrlats,arrlons = producer.retrieving()
     
     geosdriver = [{"deplat": deplats[ind], "deplon": deplons[ind], "arrlat": arrlats[ind], "arrlon": arrlons[ind]} for ind in range(len(deplats))]
@@ -43,25 +60,32 @@ def geosdriver():
 @app.route("/geosrider")
 def geosrider():
     drflag = 0
-    producer = retrieveLocations('test', drflag)    
+    es_client = ElasticSearch("http://ec2-54-219-169-37.us-west-1.compute.amazonaws.com:9200")
+    producer = retrieveLocations(es_client, 'test', 'myMessages', drflag)
     deplats,deplons,arrlats,arrlons = producer.retrieving()
     
     geosrider = [{"deplat": deplats[ind], "deplon": deplons[ind], "arrlat": arrlats[ind], "arrlon": arrlons[ind]} for ind in range(len(deplats))]
     return jsonify(geosrider=geosrider)
-
-@app.route('/update/<messageid>')
-def updateMessage(messageid):
-    producer = updateByMessageid('test', 'myMessages', messageid)    
-    producer.updating()
-    return render_template('map_locations.html')
   
-@app.route('/update/<messageid>/<lat>/<lon>')
+@app.route("/update/<messageid>/<lat>/<lon>")
 def updateLatLon(messageid,lat,lon):
-    producer1 = updateByMessageid('test', 'myMessages', messageid)    
-    producer1.updating()
-    producer2 = updateByLatLon('test', 'myMessages', lat, lon)    
-    producer2.updating()
-    return redirect('/locations')
-  
+    es_client = ElasticSearch("http://ec2-54-219-169-37.us-west-1.compute.amazonaws.com:9200")
+    producer1 = mark4deletionByLatLon(es_client, 'test', 'myMessages', lat, lon)    
+    markid = producer1.marking()
+    print "markid = %s" % markid
+    #if the rider/driver is still available, remove the corresponding initiating driver/rider and confirm.
+    if markid != 1:
+        producer2 = updateByMessageid(es_client, 'test', 'myMessages', messageid)    
+        success = producer2.updating()
+        if success == 1:
+            message = "You have been selected by other driver/rider."
+        else:
+            es_client.delete('test', 'myMessages', markid)
+            message = "Both driver and rider have been confirmed! Please contact "
+            
+    else:       
+        message = "The driver/rider isn't available anymore. Please select again!"
+        
+    return render_template("confirm.html", message = message)
 
     

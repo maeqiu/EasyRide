@@ -3,17 +3,16 @@ import random
 import sys
 import time
 
-from pyelasticsearch import ElasticSearch
-
 class matchRides(object):
-    def __init__(self, esindex, deploc, arrloc, drflag):
-        self.esindex = esindex
+    def __init__(self, es_client, esindex, estype, deploc, arrloc, drflag):
+        self.client=es_client
+        self.index = esindex
+        self.type = estype
         self.deplocation = deploc
         self.arrlocation = arrloc
         self.drflag = drflag
             
     def matching(self):
-        es_client = ElasticSearch("http://ec2-54-219-169-37.us-west-1.compute.amazonaws.com:9200")
         # construct query to select closest drivers/riders
         query = {
           "sort" : [
@@ -67,16 +66,16 @@ class matchRides(object):
               }
         }
     
-        print "-----------executing search query-----------"
-        res = es_client.search(query, index=self.esindex)    
-        hits = res['hits']['hits']        
+        print "-----------Searching for nearby driver/rider-----------"
+        res = self.client.search(query, index=self.index, doc_type=self.type)    
+        hits = res['hits']['hits']
     
         # no nearby driver available
         if len(hits) == 0:
-            print "No Drivers Found"
+            print "No Drivers/Riders Found"
             return (1)
     
-        print "Found %d drivers" % len(hits)
+        print "Found %d drivers/riders" % len(hits)
         print json.dumps(hits)
         mid=[]
         deplat=[]
@@ -85,7 +84,6 @@ class matchRides(object):
         arrlon=[]        
         dist=[]
         for re in hits:
-            name = re['_source']['name']
             mid.append(re['_source']['messageid'])
             deplat.append(re['_source']['deplocation']['lat'])
             deplon.append(re['_source']['deplocation']['lon'])

@@ -1,44 +1,58 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html>
-  <head>
-    <title>Simple Map</title>
-    <meta name="viewport" content="initial-scale=1.0">
-    <meta charset="utf-8">
-    <style>
-      html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
-      #map {
-        height: 100%;
-      }
-	  .labels {
-     	color: red;
-     	background-color: white;
-     	font-family: "Lucida Grande", "Arial", sans-serif;
-     	font-size: 10px;
-     	font-weight: bold;
-     	text-align: center;
-     	width: 40px;     
-     	border: 2px solid black;
-     	white-space: nowrap;
-	  }
-    </style>
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-    <!--<script src="../static/elasticsearch-js/elasticsearch.js"></script>-->
- 	<script src="../static/match.js"></script>
-  </head>
-  <body>
-  	<div>
-        <h2>WebUI Demo</h2>
-        <h3><a href="../locations">back</a></h3>
-    </div>
-    <div id="map"> </div>
+<head>
+    <title>EasyRide</title>
+    <link href="../static/css/bootstrap.css" rel="stylesheet" type="text/css" media="all">
+<link href="../static/css/style.css" rel="stylesheet" type="text/css" media="all" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800,600,300' rel='stylesheet' type='text/css'>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="../static/js/match.js"></script>
+<!-- Mega Menu -->
+<link href="../static/css/megamenu.css" rel="stylesheet" type="text/css" media="all" />
+<script type="text/javascript" src="../static/js/megamenu.js"></script>
+<script>$(document).ready(function(){$(".megamenu").megamenu();});</script>
+<!-- Mega Menu -->
+</head>
+<body>
+	<div class="header">
+		<div class="container">
+        	<div class="logo">
+				<a href="/index"><img src="../static/images/logo.png" class="img-responsive" alt=""></a>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+	</div>
+	<div class="header-bottom">
+		<div class="container">
+			<div class="top-nav">
+				<span class="menu"> </span>
+					<ul class="navig megamenu skyblue">
+						<li><a href="/locations" class="scroll"><span> </span> Search Drivers/Riders</a></li>
+                        <li><a href="/slides" target="_blank" class="scroll"><span class="slides"> </span> Slide Show</a></li>
+						<div class="clearfix"></div>
+					</ul>
+			</div>
+			<div class="head-right">
+				<ul class="number">
+					<li><a href="https://github.com/maeqiu/EasyRide" target="_blank"><i class="roc"> </i>Github</a></li>
+					<li><a href="https://linkedin.com/in/maeqiu" target="_blank"><i class="phone"> </i>linkedin</a></li>
+					<li><a href="mailto:mae.x.qiu@gmail.com" target="_blank"><i class="mail"> </i>email</a></li>					
+					<div class="clearfix"> </div>						
+				</ul>
+			</div>
+			<div class="clearfix"> </div>	
+		</div>
+	</div>
+    <div id="map"></div>
     <span id="markers" onclick="initialize({{ geosmatch }})"></span>
-    
-    <script async defer src="https://maps.googleapis.com/maps/api/js?callback=initialize"
+    <script src="https://maps.googleapis.com/maps/api/js?callback=initialize"
         async defer></script>
-  
-  </body>
+	<div class="footer">
+		<div class="container"></div>
+		<div class="clearfix"></div>
+	</div>
+</body>
 </html>
