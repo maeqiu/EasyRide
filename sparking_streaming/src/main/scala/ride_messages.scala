@@ -32,7 +32,7 @@ object StreamProject {
 	
 	val zkQuorum = "ec2-52-8-225-175.us-west-1.compute.amazonaws.com:2181"
     val group = "myGroup"
-    val topic = Map("test" -> 1)
+    val topic = Map("RideRequests" -> 1)
     val kafkaStream = KafkaUtils.createStream(ssc, zkQuorum, group, topic).map(_._2)
 	
 	def single_to_double(digit: String): String = if (digit.length==1) "0"+digit else digit
@@ -42,7 +42,7 @@ object StreamProject {
     val messages_all = parsed_message.map( message => {val date_array = compact(message \ "timestamp").tail.dropRight(1).split(",")
     						    (compact(render( message \ "userID" )).toInt,							     
 							    compact(render( message \ "messageID" )).toInt,
-							    compact(render( message \ "name" )).tail.dropRight(1), 
+							    compact(render( message \ "phone" )).tail.dropRight(1), 
 							    (date_array(0) + single_to_double(date_array(1)) + single_to_double(date_array(2))).toInt,
 							    (single_to_double(date_array(3)) + single_to_double(date_array(4)) + single_to_double(date_array(5))).toInt,
 							     compact(render( message \ "latdep" )).toDouble,
@@ -53,7 +53,7 @@ object StreamProject {
 					       )
 					       				       
 	val output = messages_all.map(x => Map("userid"-> x._1,
-	"messageid"->x._2, "name"->x._3, "date"->x._4, "time"->x._5,
+	"messageid"->x._2, "phone"->x._3, "date"->x._4, "time"->x._5,
 	"deplocation"-> Map("lat"->x._6, "lon"->x._7),
 	"arrlocation"-> Map("lat"->x._8, "lon"->x._9),
 	"drflag"->x._10))
@@ -63,7 +63,7 @@ object StreamProject {
 	output.print
 	
 	output.foreachRDD { rdd =>
-    	rdd.saveToEs("test/myMessages")
+    	rdd.saveToEs("messages/myMessages")
     }
   	  	
     // Start the computation
@@ -71,10 +71,4 @@ object StreamProject {
     ssc.awaitTermination()
   }
 }
-
-case class simple_messages(userid: Int, name: String, messageid: Int, drflag: Int)
-object simple_messages {
-    def apply(r: Row): simple_messages = simple_messages(
-      r.getInt(0), r.getString(1), r.getInt(2), r.getInt(3))
-  }
 
