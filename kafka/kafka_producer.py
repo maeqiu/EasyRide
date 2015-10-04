@@ -16,7 +16,7 @@ from kafka.client import KafkaClient
 from kafka.producer import SimpleProducer
 
 fake = Factory.create()
-NUM_USERS = 30
+NUM_USERS = 100
 RADIUS = 50000
 LATDEP = 37.061283
 LONGDEP = -120.847512
@@ -41,9 +41,9 @@ class Producer(object):
         msg_cnt = 0
         while msg_cnt<NUM_USERS:
             timestamp=rutil.randomDate("2015,09,01,00,00,00", "2015,09,08,23,59,00", random.random())
-            name = fake.name()
+            phone = fake.phone_number()
 
-            message_info = rutil.create_json_message(name=name,
+            message_info = rutil.create_json_message(phone=phone,                                            
                                            latdep=self.latlist1[msg_cnt],
                                            longdep=self.lonlist1[msg_cnt],
                                            latarr=self.latlist2[msg_cnt],
@@ -53,7 +53,7 @@ class Producer(object):
                                            user_id=random.choice(range(NUM_USERS)),
                                            message_id=msg_cnt)
             print message_info
-            self.producer.send_messages('test',message_info)
+            self.producer.send_messages('RideRequests',message_info)
             msg_cnt += 1
 
 if __name__ == "__main__":

@@ -58,11 +58,11 @@ def randomLatLon(lat, lon, radius, num_rows):
         
     return latlist, lonlist
 
-def create_json_message(name, latdep, longdep, latarr, longarr, timestamp, dr_flag, user_id, message_id):
+def create_json_message(phone, latdep, longdep, latarr, longarr, timestamp, dr_flag, user_id, message_id):
     """Create JSON messages with different message fields
     
     Args:
-        name: a person's name ("Jane Doe"), string
+        phone: a person's phone number, string
         latdep: departing latitude, double
         longdep: departing longitude, double
         latarr: arriving latitude, double
@@ -75,7 +75,7 @@ def create_json_message(name, latdep, longdep, latarr, longarr, timestamp, dr_fl
     Returns:
         A string in JSON format
         example:
-        {'name': "Jane Doe",
+        {'phone': "1-541-123-4567",
          'latdep': 37.426327,
          'longdep': -122.141076,
          "longarr": -121.650043, 
@@ -84,7 +84,7 @@ def create_json_message(name, latdep, longdep, latarr, longarr, timestamp, dr_fl
          'dr_flag': 1,
          'user_id': 00001}
     """
-    message_info = {"name": name,
+    message_info = {"phone": phone,
                     "latdep": latdep,
                     "longdep": longdep,
                     "latarr": latarr,
