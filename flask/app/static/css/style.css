@@ -9,7 +9,6 @@ html,body{
 #map {
 	height: 600px;
 	width: 100%;
-	padding: 100 0 100 0;
 }
 body a{
     transition:0.5s all;
@@ -81,7 +80,6 @@ input[type="submit"] {
 	background: #0c99c8;
 	color:#fff;
   	font-size: 1em;
-  	padding:6px;
 }
 input[type="radio"]{
   margin: 0 10px 0 10px;
@@ -245,18 +243,17 @@ li.wicked{
   font-size: 1.05em;
   font-weight: 600;
   color: #2f4455;
-  width: 24%;
-}
-li.wicked img {
-	padding: 0em 0.6em 0em 0em;
-	width: 35px;
+  width: 25%;
 }
 li.mullet {
-  font-size: 1em;
-  font-weight: 400;
+  font-size: 1.05em;
+  font-weight: 600;
   color: #2f4455;
-  margin: 0em;
-  width: 27%;
+  width: 20%;
+}
+li.mullet img {
+	padding: 0em 0.6em 0em 0em;
+	width: 32px;
 }
 li.see {
   font-size: 1em;
