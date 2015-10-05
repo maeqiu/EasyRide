@@ -2,16 +2,16 @@
 ## Introduction
 
 EasyRide is a real-time data platform to connect people for easy ridesharing. It shows the locations of available drivers and riders on a map and users can search for nearby drivers/riders. It also simulates the real-time driver/rider matching in the back end.
-![Project Overview] (flask/static/images/overview.png)
+![Project Overview] (flask/app/static/images/overview.png)
 
 ## Data
 
 The rideshare requests are engineered with the schema shown below. The drivers and riders are being matched based on their starting locations and destinations.
-![Sample Data] (flask/static/images/sampledata.png)
+![Sample Data] (flask/app/static/images/sampledata.png)
 
 ## Data Pipeline
 
-![Data Pipeline] (flask/static/images/pipeline.png)
+![Data Pipeline] (flask/app/static/images/pipeline.png)
 
 ## Distributed AWS Clusters
 The following cluster configuration is used in this project:
