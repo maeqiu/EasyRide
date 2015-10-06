@@ -6,7 +6,7 @@ var map;
 function initialize(values) {
 	markers = values;
 	var myOptions = {
-        zoom: 8,
+        zoom: 9,
         center: myLatlng
     };
     map = new google.maps.Map(document.getElementById("map"),
@@ -38,7 +38,6 @@ function showMatch(markers, map) {
 				phone: markers[index]['phone']
 			});
 			google.maps.event.addListener(marker, 'click', function() {
-				alert(index+','+this.phone);
 				updateDatabase(this.messageid,this.phone,markers[len-1]['deplat'], markers[len-1]['deplon']);
 			});
 		
@@ -75,6 +74,5 @@ function showMatch(markers, map) {
 }
 
 function updateDatabase(messageid, phone, lat, lon) {
-	alert(messageid+','+lat+','+lon);
 	window.location.href = "http://ec2-54-215-228-56.us-west-1.compute.amazonaws.com/update/"+messageid+"/"+phone+"/"+lat+"/"+lon;
 }
