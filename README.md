@@ -24,7 +24,7 @@ A live demo of the project and the presentation slides can be found at [easyride
 
 ## Usage
 1. Start Spark on the Spark Cluster: $SPARK_HOME/sbin/start-all.sh
-2. Then start Spark Streaming job: "spark-submit --class StreamProject --master spark://ip-172-31-2-139:7077 --jars target/scala-2.10/ride_messages-assembly-1.0.jar target/scala-2.10/ride_messages_2.10-1.0.jar"
+2. Then start Spark Streaming job: spark-submit --class StreamProject --master spark://ip-172-31-2-139:7077 --jars target/scala-2.10/ride_messages-assembly-1.0.jar target/scala-2.10/ride_messages_2.10-1.0.jar
 3. Start Elasticsearch on the database cluster: sudo $ELASTICSEARCH_HOME/bin/elasticsearch &
 4. Create Elasticsearch database with specified index and type
 5. Start kafka producer and simulation: ./simulation.sh
