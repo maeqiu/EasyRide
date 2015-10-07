@@ -15,6 +15,10 @@ class retrieveLocations(object):
         querySize = 15
         query = { 
                 "size": querySize,
+                "sort": [
+                    { "date": { "order": "desc" }},
+                    { "time": { "order": "desc" }}
+                 ],
                 "query": { "match": { "drflag": self.drflag } }
                 }
     

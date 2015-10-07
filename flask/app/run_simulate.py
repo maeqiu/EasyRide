@@ -9,12 +9,11 @@ import time
 from SimulateUtilities import simulateUser
 from pyelasticsearch import ElasticSearch
 
-NUM_MESSAGES = 30
-es_client = ElasticSearch("http://ec2-54-219-169-37.us-west-1.compute.amazonaws.com:9200")
-messageid=1
+NUM_MESSAGES = 1000000
+es_client = ElasticSearch("http://ec2-54-219-169-37.us-west-1.compute.amazonaws.com:9200")#messageid=1
     
 while True:
-    #messageid=random.choice(range(NUM_MESSAGES))
+    messageid=random.choice(range(NUM_MESSAGES))
     drflag=random.choice([0, 1])
     print "New user comes in, messageid = %d, drflag = %d" % (messageid, drflag)
     
@@ -51,7 +50,6 @@ while True:
     else:
         print "no record found, retrying!"
     
-    messageid=messageid+1
     time.sleep(1)
 
 

@@ -1,5 +1,5 @@
 // Render the markers for driver/rider locations on Google Maps
-var myLatlng = {lat: 37.6, lng: -121.1};
+var myLatlng = {lat: 37.5, lng: -121.0};
 var markerlist = [];
 var map;
 
@@ -38,6 +38,9 @@ function showLocations() {
 						title: 'driver ' + String(character) + ', departing from (' + geosdriver[index]['deplat'] + ', ' + geosdriver[index]['deplon'] + ')'
 					});
 				
+					google.maps.event.addListener(marker, 'click', function() {
+						updateTextDep(this.getPosition());
+					});
 					markerlist.push(marker);   //add marker to the list
 					
 					var marker_color = "F74DE1";   //pink					
@@ -52,6 +55,9 @@ function showLocations() {
 						map: map,
 						icon: icon,
 						title: 'driver ' + String(character) + ', arriving at (' + geosdriver[index]['arrlat'] + ', ' + geosdriver[index]['arrlon'] + ')'
+					});
+					google.maps.event.addListener(marker, 'click', function() {
+						updateTextArr(this.getPosition());
 					});
 					
 					markerlist.push(marker);   //add marker to the list					
@@ -76,7 +82,9 @@ function showLocations() {
 						anchor: new google.maps.Point(17, 34),
 						size: new google.maps.Size(100,80)
 					});
-					
+					google.maps.event.addListener(marker, 'click', function() {
+						updateTextDep(this.getPosition());
+					});
 					markerlist.push(marker);   //add marker to the list
 					
 					var marker_color = "009BEE";   //blue
@@ -85,6 +93,9 @@ function showLocations() {
 						map: map,
 						icon: "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=" + character + "|" + marker_color + "|" + marker_text_color,
 						title: 'rider ' + String(character) + ', arriving at (' + geosrider[index]['arrlat'] + ', ' + geosrider[index]['arrlon'] + ')'
+					});
+					google.maps.event.addListener(marker, 'click', function() {
+						updateTextArr(this.getPosition());
 					});
 					
 					markerlist.push(marker);   //add marker to the list					
