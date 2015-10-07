@@ -17,7 +17,7 @@ from kafka.client import KafkaClient
 from kafka.producer import SimpleProducer
 
 fake = Factory.create()
-NUM_USERS = 10000
+NUM_USERS = 10000000
 RADIUS = 50000
 LATDEP = 37.061283
 LONGDEP = -120.847512
@@ -39,7 +39,7 @@ class Producer(object):
         
         msg_cnt = 0
         while True:
-            timestamp=rutil.randomDate("2015,10,01,00,00,00", "2015,10,02,23,59,00", random.random())
+            timestamp=rutil.randomDate("2015,10,01,00,00,00", "2015,10,06,23,59,00", random.random())
             phone = fake.phone_number()
             latdep,longdep=rutil.randomSingleLatLon(LATDEP, LONGDEP, RADIUS)
             latarr,longarr=rutil.randomSingleLatLon(LATARR, LONGARR, RADIUS)
