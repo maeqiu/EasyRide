@@ -31,7 +31,7 @@ def randomDate(start, end, prop):
     return strTimeProp(start, end, '%Y,%m,%d,%H,%M,%S', prop)
 
 def randomLatLon(lat, lon, radius, num_rows):
-    """ generate random Lat Long positions within radium(meters) from (lat,lon)
+    """ generate random Lat Long positions near origin at (lat,lon)
     number of Lat Long to be generated equals num_rows
     """
     radiusInDegrees=radius/111300.           
@@ -57,6 +57,27 @@ def randomLatLon(lat, lon, radius, num_rows):
         lonlist.append(yLong)
         
     return latlist, lonlist
+
+def randomSingleLatLon(lat, lon, radius):
+    """ generate a single random pair of Lat Long position near origin at (lat,lon)
+    """
+    radiusInDegrees=radius/111300.           
+    r = radiusInDegrees
+    x0 = lat
+    y0 = lon
+   
+    u = float(random.uniform(0.0,1.0))
+    v = float(random.uniform(0.0,1.0))
+    
+    w = r * math.sqrt(u)
+    t = 2 * math.pi * v
+    x = w * math.cos(t) 
+    y = w * math.sin(t)
+      
+    xLat  = x + x0
+    yLong = y + y0
+        
+    return xLat, yLong
 
 def create_json_message(phone, latdep, longdep, latarr, longarr, timestamp, dr_flag, user_id, message_id):
     """Create JSON messages with different message fields
