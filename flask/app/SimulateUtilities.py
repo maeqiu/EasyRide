@@ -21,10 +21,8 @@ class simulateUser(object):
     def simulating(self):
         producer = matchRides(self.client,self.index,self.type,self.deplocation,self.arrlocation,self.drflag)
         result = producer.matching()
-        print "----------------------"
-        print result
         if (result != 1):    #found matching drivers/riders
-            (deplats,deplons,arrlats,arrlons,dist,messageid) = result
+            (deplats,deplons,arrlats,arrlons,dist,messageid,phone) = result
             
             #randomly pick up a user
             pickup=random.choice(range(len(deplats)))
@@ -32,19 +30,17 @@ class simulateUser(object):
             
             requestingProducer = mark4deletionByLatLon(self.client, self.index, self.type, self.deplocation[0], self.deplocation[1])    
             markid = requestingProducer.marking()
-            print "markid = %s" % markid
-            #if the rider/driver is still available, remove the corresponding requesting driver/rider and confirm.
+            #if the requesting rider/driver is still available, check whether the requested driver/rider is available.
             if markid != 1:
                 requestedProducer = updateByMessageid(self.client, self.index, self.type, messageid[pickup])    
                 success = requestedProducer.updating()
-                print "success is:" + str(success) + " and markid is: " + str(markid) + " and self.index is: "+ str(self.index) + " and self.type is: " + str(self.type);
                 if success == 1:
-                    print "You have been selected by other driver/rider."
+                    print "The driver/rider isn't available anymore. Please select again!"
                 else:
-                    print "Deleting the requesting driver/rider %s" % markid
                     self.client.delete(self.index, self.type, markid)
                     print "Both driver and rider have been confirmed!"
                     
-            else:       
-                print "The driver/rider isn't available anymore. Please select again!"
+            else:
+                print "You have been selected by other driver/rider."       
+                
             
